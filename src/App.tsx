@@ -1,7 +1,12 @@
+import { Board } from "components";
 import "styles/main.css";
 
 function App() {
-  return <h1>Vite OOP Chess</h1>;
+  return (
+    <div className="h-full w-full flex justify-center items-center border-[2px] border-solid border-[green]">
+      <Board />
+    </div>
+  );
 }
 
 export default App;
