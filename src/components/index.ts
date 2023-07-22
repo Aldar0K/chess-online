@@ -1,1 +1,2 @@
-export * from "./Board";
+export * from "./BoardComponent";
+export * from "./CellComponent";

@@ -13,8 +13,8 @@ export class Board {
         } else {
           row.push(new Cell(this, j, i, Colors.WHITE, null)); // add white cell
         }
-        this.cells.push(row);
       }
+      this.cells.push(row);
     }
   }
 }
