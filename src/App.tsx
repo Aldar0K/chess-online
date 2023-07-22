@@ -13,11 +13,12 @@ function App() {
   const restart = () => {
     const newBoard = new Board();
     newBoard.initCells();
+    newBoard.addFigures();
     setBoard(newBoard);
   };
 
   return (
-    <div className="h-full w-full flex justify-center items-center border-[2px] border-solid border-[green]">
+    <div className="h-full w-full flex justify-center items-center border-[2px] border-solid border-slate-700">
       <BoardComponent board={board} setBoard={setBoard} />
     </div>
   );
