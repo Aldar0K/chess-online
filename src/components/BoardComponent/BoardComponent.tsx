@@ -1,4 +1,13 @@
-import { Dispatch, FC, Fragment, SetStateAction, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import {
+  Dispatch,
+  FC,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 import { Board, Cell } from "models";
 
@@ -9,7 +18,7 @@ interface Props {
   setBoard: Dispatch<SetStateAction<Board>>;
 }
 
-const BoardComponent: FC<Props> = ({ board }) => {
+const BoardComponent: FC<Props> = ({ board, setBoard }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
   const handleClick = (cell: Cell) => {
@@ -20,6 +29,20 @@ const BoardComponent: FC<Props> = ({ board }) => {
     } else {
       setSelectedCell(cell);
     }
+  };
+
+  useEffect(() => {
+    highlightCells();
+  }, [selectedCell]);
+
+  const highlightCells = () => {
+    board.highlightCells(selectedCell);
+    updateBoard();
+  };
+
+  const updateBoard = () => {
+    const newBoard = board.getCopyBoard();
+    setBoard(newBoard);
   };
 
   return (
