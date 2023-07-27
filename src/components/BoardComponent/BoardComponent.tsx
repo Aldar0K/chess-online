@@ -4,6 +4,7 @@ import {
   Dispatch,
   FC,
   Fragment,
+  MouseEvent,
   SetStateAction,
   useEffect,
   useState,
@@ -22,13 +23,27 @@ const BoardComponent: FC<Props> = ({ board, setBoard }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
   const handleClick = (cell: Cell) => {
-    if (!cell.figure) return;
-
+    // select or deselect cell
     if (cell.id === selectedCell?.id) {
       setSelectedCell(null);
-    } else {
+    } else if (cell.figure) {
       setSelectedCell(cell);
     }
+
+    // move figure
+    if (
+      selectedCell &&
+      selectedCell !== cell &&
+      selectedCell.figure?.canMove(cell)
+    ) {
+      selectedCell.moveFigure(cell);
+      setSelectedCell(null);
+    }
+  };
+
+  const handleContextMenu = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setSelectedCell(null);
   };
 
   useEffect(() => {
@@ -55,6 +70,7 @@ const BoardComponent: FC<Props> = ({ board, setBoard }) => {
               cell={cell}
               selected={cell.id === selectedCell?.id}
               onClick={() => handleClick(cell)}
+              onContextMenu={handleContextMenu}
             />
           ))}
         </Fragment>
