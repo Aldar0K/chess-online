@@ -2,6 +2,7 @@
 
 import {
   Dispatch,
+  DragEvent,
   FC,
   Fragment,
   MouseEvent,
@@ -31,6 +32,30 @@ const BoardComponent: FC<Props> = ({ board, setBoard }) => {
     }
 
     // move figure
+    if (
+      selectedCell &&
+      selectedCell !== cell &&
+      selectedCell.figure?.canMove(cell)
+    ) {
+      selectedCell.moveFigure(cell);
+      setSelectedCell(null);
+    }
+  };
+
+  const handleDragStart = (cell: Cell) => {
+    console.log(cell);
+    if (cell.figure) {
+      setSelectedCell(cell);
+    }
+  };
+
+  const handleDragOver = (e: DragEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
+  const handleDrop = (cell: Cell) => {
+    console.log(cell);
     if (
       selectedCell &&
       selectedCell !== cell &&
@@ -71,6 +96,9 @@ const BoardComponent: FC<Props> = ({ board, setBoard }) => {
               selected={cell.id === selectedCell?.id}
               onClick={() => handleClick(cell)}
               onContextMenu={handleContextMenu}
+              onDragStart={() => handleDragStart(cell)}
+              onDragOver={handleDragOver}
+              onDrop={() => handleDrop(cell)}
             />
           ))}
         </Fragment>
