@@ -11,23 +11,30 @@ import {
   useState,
 } from "react";
 
-import { Board, Cell } from "models";
+import { Board, Cell, Player } from "models";
 
 import { CellComponent } from "components";
 
-interface Props {
+interface BoardComponentProps {
   board: Board;
   setBoard: Dispatch<SetStateAction<Board>>;
+  currentPlayer: Player | null;
+  swapPlayer: () => void;
 }
 
-const BoardComponent: FC<Props> = ({ board, setBoard }) => {
+const BoardComponent: FC<BoardComponentProps> = ({
+  board,
+  setBoard,
+  currentPlayer,
+  swapPlayer,
+}) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
   const handleClick = (cell: Cell) => {
     // select or deselect cell
     if (cell.id === selectedCell?.id) {
       setSelectedCell(null);
-    } else if (cell.figure) {
+    } else if (cell.figure && cell.figure.color === currentPlayer?.color) {
       setSelectedCell(cell);
     }
 
@@ -39,12 +46,14 @@ const BoardComponent: FC<Props> = ({ board, setBoard }) => {
     ) {
       selectedCell.moveFigure(cell);
       setSelectedCell(null);
+      swapPlayer();
+      updateBoard();
     }
   };
 
   const handleDragStart = (cell: Cell) => {
-    console.log(cell);
-    if (cell.figure) {
+    // select cell
+    if (cell.figure && cell.figure.color === currentPlayer?.color) {
       setSelectedCell(cell);
     }
   };
@@ -55,7 +64,7 @@ const BoardComponent: FC<Props> = ({ board, setBoard }) => {
   };
 
   const handleDrop = (cell: Cell) => {
-    console.log(cell);
+    // move figure
     if (
       selectedCell &&
       selectedCell !== cell &&
@@ -63,6 +72,8 @@ const BoardComponent: FC<Props> = ({ board, setBoard }) => {
     ) {
       selectedCell.moveFigure(cell);
       setSelectedCell(null);
+      swapPlayer();
+      updateBoard();
     }
   };
 
