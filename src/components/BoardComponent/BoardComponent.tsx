@@ -15,6 +15,10 @@ import { Board, Cell, Player } from "models";
 
 import { CellComponent } from "components";
 
+interface SelectOptions {
+  deselect?: boolean;
+}
+
 interface BoardComponentProps {
   board: Board;
   setBoard: Dispatch<SetStateAction<Board>>;
@@ -30,15 +34,18 @@ const BoardComponent: FC<BoardComponentProps> = ({
 }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
-  const handleClick = (cell: Cell) => {
-    // select or deselect cell
-    if (cell.id === selectedCell?.id) {
+  const selectCell = (
+    cell: Cell,
+    { deselect }: SelectOptions = { deselect: true }
+  ) => {
+    if (deselect && cell.id === selectedCell?.id) {
       setSelectedCell(null);
     } else if (cell.figure && cell.figure.color === currentPlayer?.color) {
       setSelectedCell(cell);
     }
+  };
 
-    // move figure
+  const moveCell = (cell: Cell) => {
     if (
       selectedCell &&
       selectedCell !== cell &&
@@ -51,11 +58,13 @@ const BoardComponent: FC<BoardComponentProps> = ({
     }
   };
 
+  const handleClick = (cell: Cell) => {
+    selectCell(cell);
+    moveCell(cell);
+  };
+
   const handleDragStart = (cell: Cell) => {
-    // select cell
-    if (cell.figure && cell.figure.color === currentPlayer?.color) {
-      setSelectedCell(cell);
-    }
+    selectCell(cell, { deselect: false });
   };
 
   const handleDragOver = (e: DragEvent<HTMLButtonElement>) => {
@@ -64,17 +73,7 @@ const BoardComponent: FC<BoardComponentProps> = ({
   };
 
   const handleDrop = (cell: Cell) => {
-    // move figure
-    if (
-      selectedCell &&
-      selectedCell !== cell &&
-      selectedCell.figure?.canMove(cell)
-    ) {
-      selectedCell.moveFigure(cell);
-      setSelectedCell(null);
-      swapPlayer();
-      updateBoard();
-    }
+    moveCell(cell);
   };
 
   const handleContextMenu = (event: MouseEvent<HTMLButtonElement>) => {
