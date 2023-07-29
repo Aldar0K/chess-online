@@ -1,9 +1,11 @@
 import { Cell } from "./Cell";
 import { Colors } from "./Colors";
-import { Bishop, King, Knight, Pawn, Queen, Rook } from "./figures";
+import { Bishop, Figure, King, Knight, Pawn, Queen, Rook } from "./figures";
 
 export class Board {
   cells: Cell[][] = [];
+  lostWhiteFigures: Figure[] = [];
+  lostBlackFigures: Figure[] = [];
 
   public initCells() {
     for (let i = 0; i < 8; i++) {
@@ -73,6 +75,8 @@ export class Board {
   public getCopyBoard(): Board {
     const newBoard = new Board();
     newBoard.cells = this.cells;
+    newBoard.lostBlackFigures = this.lostBlackFigures;
+    newBoard.lostWhiteFigures = this.lostWhiteFigures;
     return newBoard;
   }
 
@@ -84,5 +88,11 @@ export class Board {
         target.available = !!selectedCell?.figure?.canMove(target);
       }
     }
+  }
+
+  public addLostFigure(figure: Figure) {
+    figure.color == Colors.BLACK
+      ? this.lostBlackFigures.push(figure)
+      : this.lostWhiteFigures.push(figure);
   }
 }

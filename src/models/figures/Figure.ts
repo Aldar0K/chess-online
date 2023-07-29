@@ -3,18 +3,18 @@ import { v4 as uuid4 } from "uuid";
 import { Cell, Colors } from "models";
 
 export enum FigureNames {
-  FIGURE = "FIGURE",
-  KING = "KING",
-  KNIGHT = "KNIGHT",
-  PAWN = "PAWN",
-  QUEEN = "QUEEN",
-  ROOK = "ROOK",
-  BISHOP = "BISHOP",
+  FIGURE = "Figure",
+  KING = "King",
+  KNIGHT = "Knight",
+  PAWN = "Pawn",
+  QUEEN = "Queen",
+  ROOK = "Rook",
+  BISHOP = "Bishop",
 }
 
 export class Figure {
   color: Colors;
-  logo: string | null;
+  logo: string;
   cell: Cell;
   name: FigureNames;
   id: string;
@@ -23,7 +23,7 @@ export class Figure {
     this.color = color;
     this.cell = cell;
     this.cell.figure = this;
-    this.logo = null;
+    this.logo = "";
     this.name = FigureNames.FIGURE;
     this.id = uuid4();
   }

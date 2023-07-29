@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useEffect, useState } from "react";
 
 import { Board, Colors, Player } from "models";
 import "styles/main.css";
 
-import { BoardComponent } from "components";
+import { BoardComponent, LostFigures } from "components";
 
 function App() {
   const [board, setBoard] = useState<Board>(new Board());
@@ -30,13 +32,27 @@ function App() {
   };
 
   return (
-    <div className="h-full w-full flex justify-center items-center border-[2px] border-solid border-slate-700">
-      <BoardComponent
-        board={board}
-        setBoard={setBoard}
-        currentPlayer={currentPlayer}
-        swapPlayer={swapPlayer}
-      />
+    <div className="flex gap-[8px] h-full w-full">
+      <main className="flex-1 w-[70%] flex justify-center items-center">
+        <BoardComponent
+          board={board}
+          setBoard={setBoard}
+          currentPlayer={currentPlayer}
+          swapPlayer={swapPlayer}
+        />
+      </main>
+
+      <aside className="w-[30%] flex flex-col gap-2">
+        <h2 className="text-[16px] leading-[19px] font-[500] text-black">
+          Текущий игрок:{" "}
+          {currentPlayer?.color === Colors.WHITE ? "Белый" : "Черный"}
+        </h2>
+
+        <LostFigures
+          lostBlackFigures={board.lostBlackFigures}
+          lostWhiteFigures={board.lostWhiteFigures}
+        />
+      </aside>
     </div>
   );
 }
