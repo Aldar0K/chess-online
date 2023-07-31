@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Board, Colors, Player } from "models";
 import "styles/main.css";
 
-import { BoardComponent, LostFigures } from "components";
+import { BoardComponent, LostFigures, Timer } from "components";
 
 function App() {
   const [board, setBoard] = useState<Board>(new Board());
@@ -48,6 +48,7 @@ function App() {
           {currentPlayer?.color === Colors.WHITE ? "Белый" : "Черный"}
         </h2>
 
+        <Timer currentPlayer={currentPlayer} restart={restart} />
         <LostFigures
           lostBlackFigures={board.lostBlackFigures}
           lostWhiteFigures={board.lostWhiteFigures}
