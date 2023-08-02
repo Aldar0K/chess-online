@@ -1,13 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { Board, Colors, Player } from "models";
-import "styles/main.css";
 
 import { BoardComponent, LostFigures, Timer } from "components";
 
-function App() {
+const MainPage: FC = () => {
   const [board, setBoard] = useState<Board>(new Board());
   const [whitePlayer] = useState<Player>(new Player(Colors.WHITE));
   const [blackPlayer] = useState<Player>(new Player(Colors.BLACK));
@@ -15,6 +12,7 @@ function App() {
 
   useEffect(() => {
     restart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const restart = () => {
@@ -56,6 +54,6 @@ function App() {
       </aside>
     </div>
   );
-}
+};
 
-export default App;
+export default MainPage;
