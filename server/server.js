@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 
 import connectDB from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js";
+import routes from "./routes/index.js";
 
 dotenv.config();
 connectDB();
@@ -18,6 +18,6 @@ const app = express();
 
 app.use(cors(corsConfig));
 app.use(express.json());
-app.use("/api/user", userRoutes);
+app.use("/v1", routes);
 
 const server = app.listen(port, console.log(`Server started on port: ${port}`));
