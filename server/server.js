@@ -18,6 +18,6 @@ const app = express();
 
 app.use(cors(corsConfig));
 app.use(express.json());
-app.use("/v1", routes);
+app.use("/api", routes);
 
 const server = app.listen(port, console.log(`Server started on port: ${port}`));
