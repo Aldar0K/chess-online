@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 const gameSchema = Schema(
   {
+    code: { type: String, required: false },
     pgn: { type: String, required: false },
     white: { type: Schema.Types.ObjectId, ref: "User", required: false },
     black: { type: Schema.Types.ObjectId, ref: "User", required: false },
@@ -18,7 +19,6 @@ const gameSchema = Schema(
       ],
     },
     host: { type: Schema.Types.ObjectId, ref: "User", required: false },
-    code: { type: String, required: false },
     unlisted: { type: Boolean, required: false },
     timeout: { type: Number, required: false },
     observers: [{ type: Schema.Types.ObjectId, ref: "User", required: false }],
