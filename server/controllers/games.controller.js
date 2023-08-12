@@ -17,6 +17,27 @@ export const getGames = asyncHandler(async (req, res) => {
   res.send(games);
 });
 
+export const getGame = asyncHandler(async (req, res) => {
+  const { code } = req.params;
+
+  if (!code) {
+    res.status(400);
+    throw new Error("Please fill all required fields");
+  }
+
+  const searchValue = {
+    $or: [{ code: { $regex: code, $options: "i" } }],
+  };
+
+  try {
+    const game = await Game.findOne(searchValue);
+    res.send(game);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
 export const createGame = asyncHandler(async (req, res) => {
   const { side, unlisted } = req.body;
 
