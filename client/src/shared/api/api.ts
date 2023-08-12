@@ -1,11 +1,9 @@
 import axios from "axios";
 
-// TODO add server string to .env file.
-// import { serverString } from 'appConfig';
-const serverString = "/api";
+const baseURL = import.meta.env.VITE_SERVER_BASE_URL || "/api";
 
 export const instance = axios.create({
-  baseURL: serverString,
+  baseURL,
   headers: {
     "Content-type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("token")}`,
