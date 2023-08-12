@@ -1,11 +1,9 @@
-import { FC } from "react";
-
 import "./styles/main.css";
 
 import { withProviders } from "./providers";
 import { AppRouter } from "./router";
 
-const App: FC = () => {
+const App = () => {
   return <AppRouter />;
 };
 
