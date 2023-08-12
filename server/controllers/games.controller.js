@@ -11,10 +11,15 @@ export const getGames = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const games = await Game.find(searchValue).find({
-    _id: { $ne: req.user._id },
-  });
-  res.send(games);
+  try {
+    const games = await Game.find(searchValue).find({
+      _id: { $ne: req.user._id },
+    });
+    res.send(games);
+  } catch (error) {
+    res.status(404);
+    throw new Error("Games not found");
+  }
 });
 
 export const getGame = asyncHandler(async (req, res) => {
@@ -33,8 +38,8 @@ export const getGame = asyncHandler(async (req, res) => {
     const game = await Game.findOne(searchValue);
     res.send(game);
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    res.status(404);
+    throw new Error("Game not found");
   }
 });
 

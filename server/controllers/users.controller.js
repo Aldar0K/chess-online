@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import generateToken from "../helpers/generateToken.js";
 import User from "../models/user.model.js";
 
-const registerUser = asyncHandler(async (req, res) => {
+export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, image } = req.body;
 
   if (!name || !email || !password) {
@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-const authUser = asyncHandler(async (req, res) => {
+export const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -57,7 +57,7 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const getUsers = asyncHandler(async (req, res) => {
+export const getUsers = asyncHandler(async (req, res) => {
   const searchValue = req.query.search
     ? {
         $or: [{ name: { $regex: req.query.search, $options: "i" } }],
@@ -70,5 +70,3 @@ const getUsers = asyncHandler(async (req, res) => {
   });
   res.send(users);
 });
-
-export { authUser, getUsers, registerUser };
