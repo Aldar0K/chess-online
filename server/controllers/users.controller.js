@@ -57,7 +57,7 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const allUsers = asyncHandler(async (req, res) => {
+const getUsers = asyncHandler(async (req, res) => {
   const searchValue = req.query.search
     ? {
         $or: [{ name: { $regex: req.query.search, $options: "i" } }],
@@ -71,4 +71,4 @@ const allUsers = asyncHandler(async (req, res) => {
   res.send(users);
 });
 
-export { allUsers, authUser, registerUser };
+export { authUser, getUsers, registerUser };

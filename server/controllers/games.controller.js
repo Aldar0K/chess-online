@@ -29,11 +29,13 @@ export const createGame = asyncHandler(async (req, res) => {
     const game = await Game.create({
       code: uuid(),
       pgn: "",
-      unlisted,
+      white: side === "white" ? req.user : undefined,
+      black: side === "black" ? req.user : undefined,
       host: req.user,
-      white: side === "white" && req.user,
-      black: side === "black" && req.user,
+      unlisted: !!unlisted,
     });
+
+    res.status(201).json({ code: game.code });
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
