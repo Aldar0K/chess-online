@@ -1,20 +1,25 @@
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { MainPage } from "pages";
+import { viewerModel } from "entities/viewer";
+import { ROUTES } from "shared/const";
+
+import { AuthPage, MainPage } from "pages";
 
 const AppRouter: FC = () => {
-  const isAuth = true;
+  const isAuth = viewerModel.useAuth();
 
   return (
     <>
       {isAuth ? (
         <Routes>
+          <Route index path={`${ROUTES.CHATS}/*`} Component={MainPage} />
           <Route path="*" Component={MainPage} />
         </Routes>
       ) : (
         <Routes>
-          <Route path="*" Component={MainPage} />
+          <Route index path={ROUTES.HOME} Component={AuthPage} />
+          <Route path="*" Component={AuthPage} />
         </Routes>
       )}
     </>

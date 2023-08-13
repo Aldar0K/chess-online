@@ -1,3 +1,9 @@
-@import url("./global.css");
-@import url("./index.css");
-@import url("./tailwind.css");
+/* common */
+@import url("./common/reset.css");
+@import url("./common/global.css");
+
+/* fonts */
+@import url("./fonts/Roboto/stylesheet.css");
+
+/* libraries */
+@import url("./libraries/tailwind.css");
