@@ -1,7 +1,7 @@
-import { instance } from 'shared/api';
-import { User } from '../model/types';
+import { instance } from "shared/api";
+import { User } from "../model/types";
 
 export const searchUser = async (searchValue?: string): Promise<User[]> => {
-  const response = await instance.get<User[]>(`/user?search=${searchValue}`);
+  const response = await instance.get<User[]>(`/users?search=${searchValue}`);
   return response.data;
 };
